@@ -1,0 +1,217 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 17 15:59:49 2022
+
+@author: Damian Baniel
+"""
+
+"""
+wersje bibliotek:
+    
+Python: 3.8.5 
+scipy: 1.8.0
+numpy: 1.22.3
+matplotlib: 3.3.4
+pandas: 1.4.2
+sklearn: 0.23.2
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, recall_score, confusion_matrix, ConfusionMatrixDisplay
+
+
+DATAFILE = "wdbc.csv"
+df = pd.read_csv(DATAFILE, ",")
+
+
+df.columns = df.columns.str.strip() #Usuniecie pustych przestrzeni w nazwach kolumn
+df.drop(columns = ['ID number'], inplace=True, axis=1) #usuniecie kolumny id number
+
+
+#korelacja liniowa poszczególnych kolumn
+corr_P = df.corr("pearson")
+corr_P.shape
+corr_P
+
+#tworzymy macierz trójkątną i wyświetlamy wspóczynnik korelacji większy od 0.85
+corr_P_tri = corr_P.where(np.triu(np.ones(corr_P.shape, dtype=np.bool), k=1)).stack().sort_values()
+#print(corr_P_tri[abs(corr_P_tri)>0.85])
+
+#ręczne wypisanie skorelowanych kolumn do usunięcia, wsp. korelacji 0.85
+df = df.drop(['V1', 'V2', 'V3', 'V4', 'V6', 'V7', 'V8', 'V11','V13', 'V21', 'V23', 'V26', 'V27'], axis=1)
+
+#osobna funkcja aby wywietlić histogramy zmiennych oraz avg, std...
+def histogram(dataset):
+    
+    df.drop(columns = ['Diagnosis'], inplace=True, axis=1) 
+    
+    mis =[]
+    misarr =[]
+    
+    for i in df.columns:   
+        plt.hist(df['%s' %i], 50)
+        plt.title("Wykres")
+        plt.xlabel("index")
+        plt.ylabel("%s"%i)
+        plt.show()
+        mis = df['%s' %i]
+        misarr.append(mis.describe())
+        
+        misarr_describe = pd.DataFrame(misarr)
+        
+    return misarr_describe 
+    
+    
+#hist = histogram(df)
+#print(hist)
+
+#funkcja do usunięcia outlierów
+def out_liers(dataset, quant1, quant2):
+    
+    
+    q1 = dataset.quantile(quant1) # wartości zmiennej na granicy pierwszego i drugiego kwartyla
+    q3 = dataset.quantile(quant2) # wartości zmiennej na granicy trzeciego i czwartego kwartyla
+    iqr = q3 - q1 # rozstęp międzykwartylowy
+
+    low = (q1 - 1.5 * iqr)
+    up = (q3 + 1.5 * iqr)
+    
+    low = pd.DataFrame(low)
+    low_tr = low.T
+    
+    up = pd.DataFrame(up)
+    up_tr = up.T
+    
+    df = dataset.drop(['Diagnosis'], axis=1)
+    dff = []
+    
+    for col in df.columns:
+        df_without_out = []    
+        for ind in df.index:
+            if (low_tr['%s'%col][0] < df['%s'%col][ind] < up_tr['%s'%col][0]):    
+                 df_without_out.insert(ind, df['%s'%col][ind])
+            else:
+                df_without_out.insert(ind, np.nan)
+                
+        dff.append(df_without_out)
+        #df_without_out.clear() #czysciło całą listę dlatego jest ponownie tworzona między pętlami
+        
+    df_w_o = pd.DataFrame(dff) 
+    df_w_o_tr = df_w_o.T
+    
+    return df_w_o_tr
+
+
+#
+df_out = out_liers(df, 0.25, 0.75)
+form = [df_out, df['Diagnosis']]
+df_con = pd.concat(form, axis=1)
+df_con = df_con.dropna()
+
+
+X = df_con.loc[:, df_con.columns != 'Diagnosis']
+y = df_con['Diagnosis']
+#print(df_out.skew())
+
+
+#histogramy zmiennych po usunięciu outlier-ów. Warto poprawić aby była jedna funkcja
+"""
+for i in range(0,16):    
+    plt.hist(X[i], 50)
+    plt.title("Wykres")
+    plt.xlabel("index")
+    plt.ylabel("%s"%i)
+    plt.show()
+"""
+
+ 
+#podział na zbiór treningowy oraz testowy 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30)
+
+#regresja logistyczna
+lr = LogisticRegression(solver='liblinear')  
+lr.fit(X_train, y_train) 
+
+y_pred_lr = lr.predict(X_test) #dokonujemy predykcji na zbiorze testowym logistic regresion
+
+wynik_lr = accuracy_score(y_test,y_pred_lr) 
+wynik_lr_m = confusion_matrix(y_test, y_pred_lr)
+
+#macierz dla Logistic Regression
+disp_lr = ConfusionMatrixDisplay(confusion_matrix=wynik_lr_m,  display_labels=('B', 'M'))
+disp_lr.plot()
+plt.show()
+
+# k neighbors
+neigh = KNeighborsClassifier(n_neighbors=3)
+neigh.fit(X_train, y_train)
+
+y_pred_neigh = neigh.predict(X_test) #dokonujemy predykcji na zbiorze testowym k neighbors
+
+wynik_neigh = accuracy_score(y_test,y_pred_neigh) 
+wynik_neigh_m = confusion_matrix(y_test, y_pred_neigh) 
+
+#macierz dla najbliższych sasiadów
+disp_knn = ConfusionMatrixDisplay(confusion_matrix=wynik_neigh_m,  display_labels=('B', 'M'))
+disp_knn.plot()
+plt.show()
+
+#gausian naive bayes
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+
+y_pred_gnb = gnb.predict(X_test) #dokonujemy predykcji na zbiorze testowym gaiussian naive bayesa
+
+#przedstawiamy wyniki 
+wynik_gnb = accuracy_score(y_test,y_pred_gnb)
+wynik_gnb_m = confusion_matrix(y_test, y_pred_gnb)
+
+#macierz dla Naive Bayes
+disp_gnb = ConfusionMatrixDisplay(confusion_matrix=wynik_gnb_m, display_labels=('B', 'M'))
+disp_gnb.plot()
+plt.show()
+
+
+
+print('Wynik accuracy dla modelu Logistic Regression %f' %wynik_lr)
+print(wynik_lr_m)
+print('Wynik accuracy dla modelu k najblizszych sasiadów %f' %wynik_neigh)
+print(wynik_neigh_m)
+print('Wynik accuracy dla modelu Gaussian Naive Bayes %f' %wynik_gnb)
+print(wynik_gnb_m)
+
+
+"""
+Komentarz do wyniku
+
+Zmienna Diagnosis
+M - rak złosliwy
+B - rak łagodny
+
+Na początku sprawdzenie korelacji poszczególnych kolumn oraz ręczne ich usunięcie. Stworzenie funkcji do wyswietlania 
+rozkładów poszczególnych zmiennych. Usunięcie wartoci odstających metodą roztepu między kwartylowego. Połączenie ramek danych
+oraz usunięcie brakujących wartoci. Podział na zbiór treningowy oraz testowy, gdzie na zbiór testowy przeznaczyłem 30% danych.
+Modele jakich użyłem to regresja logistyczna, k-najbliższych sąsiadów oraz Gaussian Naive Bayes.
+
+Poniżej wyniki accuracy oraz macierzy pomyłek jakie otrzymałem: 
+Wynik accuracy dla modelu Logistic Regression 0.909091
+[[87  2]
+ [ 9 23]]
+Wynik accuracy dla modelu k najblizszych sasiadów 0.892562
+[[84  5]
+ [ 8 24]]
+Wynik accuracy dla modelu Gaussian Naive Bayes 0.917355
+[[83  6]
+ [ 4 28]]
+
+Najlepsze wyniki pod względem dokładnosci ma model GNB podobnie kiedy spojrzymy na błędy. W lewym dolnym rogu
+również mamy najniższą wartosc, która mówi o błędnym zaklasyfikowaniu raka złosliwego jako łagodnego, co dla 
+potencjalnego pacjenta taki model wydawał by się najkorzystniejszy nawet gdyby dokładnosc byłaby nieco niższa.
+ 
+"""
