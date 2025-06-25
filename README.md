@@ -12,9 +12,9 @@
 
  <img width="1160" alt="Figure 2025-06-25 115414 (0)" src="https://github.com/user-attachments/assets/7a9ce836-379c-427c-81fd-b56bc7c873d8" />
 
-   -The features are right-skewed and vary significantly in scale.
-   -Some features like V4 and V29 have wide ranges, while others are tightly clustered.
-   -Standardization or normalization is recommended for distance-based models.
+   - The features are right-skewed and vary significantly in scale.
+   - Some features like V4 and V29 have wide ranges, while others are tightly clustered.
+   - Standardization or normalization is recommended for distance-based models.
     
 # Feature Distributions
 
