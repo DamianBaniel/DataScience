@@ -15,3 +15,20 @@
     Some features like V4 and V29 have wide ranges, while others are tightly clustered.
 
     Standardization or normalization is recommended for distance-based models.
+    
+Feature Distributions
+
+🤖 Models Used
+I trained and evaluated the following machine learning models:
+
+Logistic Regression
+
+K-Nearest Neighbors (KNN)
+
+Gaussian Naive Bayes
+
+Random Forest
+
+Gradient Boosting
+
+Support Vector Classifier (SVC)
