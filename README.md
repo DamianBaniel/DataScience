@@ -11,24 +11,23 @@
   Initial analysis focused on understanding the distribution of features.
 
     The features are right-skewed and vary significantly in scale.
-
     Some features like V4 and V29 have wide ranges, while others are tightly clustered.
-
     Standardization or normalization is recommended for distance-based models.
     
-Feature Distributions
+# Feature Distributions
 
-🤖 Models Used
-I trained and evaluated the following machine learning models:
+  Models Used
+  I trained and evaluated the following machine learning models:
+  
+    Logistic Regression
+    K-Nearest Neighbors (KNN)
+    Gaussian Naive Bayes
+    Random Forest
+    Gradient Boosting
+    Support Vector Classifier (SVC)
 
-Logistic Regression
+# Performance Evaluation
+   Confusion Matrices
 
-K-Nearest Neighbors (KNN)
+<img width="313" alt="Figure 2025-06-25 115414 (1)" src="https://github.com/user-attachments/assets/0201d149-e065-4a87-9dad-ef3213f69c6c" />
 
-Gaussian Naive Bayes
-
-Random Forest
-
-Gradient Boosting
-
-Support Vector Classifier (SVC)
