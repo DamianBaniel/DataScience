@@ -3,6 +3,15 @@
 
 ## Project Overview
    The objective of this project was to classify breast tumors as benign (B) or malignant (M) using the Wisconsin Breast Cancer Dataset. The project included:
-Exploratory Data Analysis (EDA)
-Model training and evaluation
-Performance comparison of multiple algorithms
+     Exploratory Data Analysis (EDA)
+     Model training and evaluation
+     Performance comparison of multiple algorithms
+
+# Data Exploration
+  Initial analysis focused on understanding the distribution of features.
+
+    The features are right-skewed and vary significantly in scale.
+
+    Some features like V4 and V29 have wide ranges, while others are tightly clustered.
+
+    Standardization or normalization is recommended for distance-based models.
