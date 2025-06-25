@@ -4,7 +4,13 @@
 Enhanced Data Science Pipeline for WDBC with Hyperparameter Tuning,
 Feature Importance Analysis, Robustness Testing, and Additional Models
 Author: Damian Baniel
-Date: 2025-06-25
+
+Environment Versions:
+Python: 3.11.7 
+pandas: 2.1.4
+numpy: 1.26.4
+matplotlib: 3.8.0
+scikit-learn: 1.2.2
 """
 
 import pandas as pd
