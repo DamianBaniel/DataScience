@@ -16,9 +16,7 @@
  - Some features like V4 and V29 have wide ranges, while others are tightly clustered.
  - Standardization or normalization is recommended for distance-based models.
     
-# Feature Distributions
-
-  Models Used
+# Models Used
   I trained and evaluated the following machine learning models:
   
   - Logistic Regression
@@ -35,10 +33,11 @@
 <img width="313" alt="Figure 2025-06-25 115414 (6)" src="https://github.com/user-attachments/assets/c2c46736-7941-4145-ac18-2fd7664a2499" /><img width="313" alt="Figure 2025-06-25 115414 (5)" src="https://github.com/user-attachments/assets/cd6f937a-2df8-494f-a27a-37647fd9ebbe" />
 <img width="313" alt="Figure 2025-06-25 115414 (3)" src="https://github.com/user-attachments/assets/afa7d7f9-0e08-43b2-a503-f1942512d985" /><img width="313" alt="Figure 2025-06-25 115414 (2)" src="https://github.com/user-attachments/assets/3761f2cd-7aae-437a-8fbb-b6b5a7ae108c" />
 
-
 # ROC Curve Comparison
 
  <img width="484" alt="Figure 2025-06-25 115414 (7)" src="https://github.com/user-attachments/assets/145fa87f-dbd6-4403-bf22-40f871ce1c96" />
+
+Random Forest and Gradient Boosting dominate the upper-left of the ROC plot, indicating superior separability. Logistic Regression and SVC also perform very well, offering a balance of interpretability and discrimination.
 
 # Robustness Checks
   Gaussian noise (±10% σ): 
