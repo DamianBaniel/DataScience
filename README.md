@@ -48,13 +48,13 @@ Random Forest and Gradient Boosting dominate the upper-left of the ROC plot, ind
 
 # Overall Conclusions
   1. Best overall performer:
-    - Random Forest achieved the highest ROC AUC (0.99) and malignant recall (92 %).
+     - Random Forest achieved the highest ROC AUC (0.99) and malignant recall (92 %).
   2. Best recall-on-malignancy:
-    - Logistic Regression and SVC minimized false negatives (4), critical for cancer screening.    
+     - Logistic Regression and SVC minimized false negatives (4), critical for cancer screening.    
  3. Fast & interpretable contender: 
-    - GaussianNB offers near-top accuracy with minimal computational cost and clear per-feature distributions. 
+     - GaussianNB offers near-top accuracy with minimal computational cost and clear per-feature distributions. 
  4. Clinical priority takeaway:    
-    - Prioritize models that minimize malignant false negatives, even at the cost of a few extra benign false positives.
+     - Prioritize models that minimize malignant false negatives, even at the cost of a few extra benign false positives.
     
 
 
