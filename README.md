@@ -12,21 +12,21 @@
 
  <img width="1160" alt="Figure 2025-06-25 115414 (0)" src="https://github.com/user-attachments/assets/7a9ce836-379c-427c-81fd-b56bc7c873d8" />
 
-   - The features are right-skewed and vary significantly in scale.
-   - Some features like V4 and V29 have wide ranges, while others are tightly clustered.
-   - Standardization or normalization is recommended for distance-based models.
+ - The features are right-skewed and vary significantly in scale.
+ - Some features like V4 and V29 have wide ranges, while others are tightly clustered.
+ - Standardization or normalization is recommended for distance-based models.
     
 # Feature Distributions
 
   Models Used
   I trained and evaluated the following machine learning models:
   
-   Logistic Regression
-   K-Nearest Neighbors (KNN)
-   Gaussian Naive Bayes
-   Random Forest
-   Gradient Boosting
-   Support Vector Classifier (SVC)
+  - Logistic Regression
+  - K-Nearest Neighbors (KNN)
+  - Gaussian Naive Bayes
+  - Random Forest
+  - Gradient Boosting
+  - Support Vector Classifier (SVC)
 
 # Performance Evaluation
    Confusion Matrices
@@ -41,18 +41,20 @@
  <img width="484" alt="Figure 2025-06-25 115414 (7)" src="https://github.com/user-attachments/assets/145fa87f-dbd6-4403-bf22-40f871ce1c96" />
 
 # Robustness Checks
-    Gaussian noise (±10% σ): all models retained ≥ 90 % accuracy on noisy test data.
-    Outlier injection (5% extreme spikes): tree-based methods (RF, GB) showed the smallest drop in accuracy, highlighting their resilience to outliers.
+  Gaussian noise (±10% σ): 
+  - all models retained ≥ 90 % accuracy on noisy test data.
+  Outlier injection (5% extreme spikes):
+  - tree-based methods (RF, GB) showed the smallest drop in accuracy, highlighting their resilience to outliers.
 
 # Overall Conclusions
-    Best overall performer:
-     Random Forest achieved the highest ROC AUC (0.99) and malignant recall (92 %).
-    Best recall-on-malignancy:
-     Logistic Regression and SVC minimized false negatives (4), critical for cancer screening.    
-    Fast & interpretable contender: 
-     GaussianNB offers near-top accuracy with minimal computational cost and clear per-feature distributions. 
-    Clinical priority takeaway:    
-     Prioritize models that minimize malignant false negatives, even at the cost of a few extra benign false positives.
+  Best overall performer:
+   - Random Forest achieved the highest ROC AUC (0.99) and malignant recall (92 %).
+  Best recall-on-malignancy:
+   - Logistic Regression and SVC minimized false negatives (4), critical for cancer screening.    
+  Fast & interpretable contender: 
+   - GaussianNB offers near-top accuracy with minimal computational cost and clear per-feature distributions. 
+  Clinical priority takeaway:    
+   - Prioritize models that minimize malignant false negatives, even at the cost of a few extra benign false positives.
     
 
 
